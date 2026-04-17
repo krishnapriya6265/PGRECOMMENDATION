@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Smart PG Finder</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage.css') }}?v=2">
+
+</head>
+
+<body>
+    <!-- Floating Background Particles -->
+    <div class="floating-bg">
+        <div class="particle p1"></div>
+        <div class="particle p2"></div>
+        <div class="particle p3"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav>
+
+        <div class="logo-container">
+            <img src="{{url_for('static', filename='logo.png')}}" alt="logo" class="logo-img">
+            <span class="logo-text">Smart PG Hub</span>
+
+        </div>
+
+        <div class="menu">
+
+            <a href="/home">🏠Home</a>
+
+            <!-- Admin Only Upload -->
+            {% if session["role"] == "admin" %}
+            <a href="/upload">📤Upload Dataset</a>
+            <a href="/comparison" onclick="localStorage.setItem('compView', 'chart')">📊Chart</a>
+            <a href="/comparison" onclick="localStorage.setItem('compView', 'analysis')">📈Performance Analysis</a>
+            {% endif %}
+
+            {% if username %}
+            <a href="/form">🔍Find PG</a>
+            <a href="/ai-picks">🤖 AI Picks</a>
+
+
+            <div class="user-dropdown">
+                <span class="user-name">
+                    HELLO, {{ username }} ▼
+                </span>
+
+                <div class="dropdown-content">
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+
+            {% else %}
+
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+
+            {% endif %}
+
+        </div>
+    </nav>
+   
+
+    <!-- Hero Section -->
+
+    <div class="hero">
+        
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div id="flash-msg" class="flash-overlay">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+        <div class="hero-marquee-container">
+            <span class="hero-marquee-text">WELCOME TO SMART PG HUB</span>
+        </div>
+
+        <h2>Find The Best PG Near You</h2>
+
+        <p>Search PG based on budget, sharing, food and location.</p>
+
+        <a href="/form" class="find-pg-btn">Find PG</a>
+
+    </div>
+    <section class="ease-living">
+        <h2>EASE OF LIVING</h2>
+        <p class="subtitle">Why PG Living is a Great Choice</p>
+
+        <div class="ease-container">
+
+            <div class="ease-card reveal">
+                <div class="icon">₹</div>
+                <h3>Affordable Living</h3>
+                <p>Budget-friendly with flexible rent options</p>
+            </div>
+
+            <div class="ease-card reveal">
+                <div class="icon">🛠</div>
+                <h3>Convenience</h3>
+                <p>Amenities like Wi-Fi, laundry and room cleaning included</p>
+            </div>
+
+            <div class="ease-card reveal">
+                <div class="icon">🛡</div>
+                <h3>Community & Safety</h3>
+                <p>Secure environment and community living</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="locations">
+
+        <h2>Top Cities for PG Accommodation</h2>
+        <p class="loc-sub">Explore comfortable PG accommodations across major towns in East Godavari district.</p>
+
+        <div class="location-container">
+
+            <div class="location-card reveal">
+                <h3> Visakhapatnam (Harbour City)</h3>
+                <p>A major IT and industrial hub with premium PG accommodations for professionals.</p>
+            </div>
+
+            <div class="location-card reveal">
+                <h3> Visakhapatnam (Educational Hub)</h3>
+                <p>Wide range of PG options near Andhra University and major coaching centers.</p>
+            </div>
+
+            <div class="location-card reveal">
+                <h3> Rajahmundry</h3>
+                <p>A major educational hub with PGs near colleges and coaching institutes.</p>
+            </div>
+
+            <div class="location-card reveal">
+                <h3> Kakinada</h3>
+                <p>Popular for students and professionals with PGs offering food and Wi-Fi.</p>
+            </div>
+
+            <div class="location-card reveal">
+                <h3> Amalapuram</h3>
+                <p>Peaceful town with affordable PG accommodations for students.</p>
+            </div>
+
+
+            <div class="location-card reveal">
+                <h3> Samalkot</h3>
+                <p>Convenient PG locations near railway station and industries.</p>
+            </div>
+
+            <div class="location-card reveal">
+                <h3> Ramachandrapuram</h3>
+                <p>Good PG facilities for students and employees working nearby.</p>
+            </div>
+
+            <div class="location-card reveal">
+                <h3> Peddapuram</h3>
+                <p>Affordable PG stays with basic amenities and peaceful surroundings.</p>
+            </div>
+
+            <div class="location-card reveal">
+                <h3> Gannavaram</h3>
+                <p>PG options available for students studying in nearby colleges.</p>
+            </div>
+
+            <div class="location-card reveal">
+                <h3> Pitapuram</h3>
+                <p>Budget PG accommodations with food and essential facilities.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="features">
+
+        <h2>Why Choose Smart PG Hub</h2>
+        <p class="feature-sub">Smart way to find the best PG accommodation in East Godavari.</p>
+
+        <div class="feature-container">
+
+            <div class="feature-card reveal">
+                <h3>🔍 Smart Search</h3>
+                <p>Search PGs based on budget, sharing type, food availability and location.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <h3>🤖 ML Based Recommendation</h3>
+                <p>Our system predicts the best PG options based on your preferences.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <h3>⚡ Quick Results</h3>
+                <p>Get instant PG recommendations after filling the details.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <h3>🚀 Destination Route Assistance</h3>
+                <p>Helps users navigate to the recommended PG by showing the shortest route and distance using map services.</p>
+            </div>
+
+        </div>
+
+    </section>
+    <footer class="footer">
+
+    <div class="footer-container">
+
+        <!-- LEFT -->
+        <div class="footer-section">
+            <div class="footer-logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" class="footer-logo-img">
+                <h3>Smart PG Hub</h3>
+            </div>
+            <p>Helping students and professionals find comfortable PG accommodations in East Godavari.</p>
+        </div>
+
+        <!-- CENTER -->
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/form">Find PG</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register">Register</a></li>
+            </ul>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="footer-section">
+            <h3>Location</h3>
+            <p>East Godavari District<br>Andhra Pradesh, India</p>
+        </div>
+
+    </div>
+
+    <p class="copyright">© 2026 Smart PG Hub | Priya</p>
+
+</footer>
+</body>
+   <script>
+        // FLASH MESSAGE AUTO-HIDE
+        setTimeout(function() {
+            let msg = document.getElementById("flash-msg");
+            if (msg) {
+                msg.style.opacity = "0";
+                setTimeout(() => msg.remove(), 500);
+            }
+        }, 3000);
+
+        // SCROLL REVEAL OBSERVER
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Once animated, no need to observe anymore
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, {
+            threshold: 0.15
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+    </script>
+</html>

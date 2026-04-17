@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>PG Recommendation</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        
+        <div class="logo-container">
+            <img src="{{url_for('static', filename='logo.png')}}" alt="logo" class="logo-img">
+            <span class="logo-text">Smart PG Hub</span>
+
+        </div>
+
+        <div class="menu">
+
+            <a href="/home">🏠Home</a>
+
+            {% if session["role"] == "admin" %}
+            <a href="/upload">📤Upload Dataset</a>
+            <a href="/comparison" onclick="localStorage.setItem('compView', 'chart')">📊Chart</a>
+            <a href="/comparison" onclick="localStorage.setItem('compView', 'analysis')">📈Performance Analysis</a>
+            {% endif %}
+
+            {% if username %}
+            <a href="/form">🔍Find PG</a>
+            <a href="/ai-picks">🤖 AI Picks</a>
+            <div class="user">
+                HELLO, {{ username }}
+            </div>
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+    <div class="back-btn-container">
+        <button onclick="history.back()" class="back-btn">← Back</button>
+    </div>
+
+
+    <!-- RESULT SECTION -->
+
+    <div class="result-container">
+
+        <h2>✨ Recommended PGs For You</h2>
+
+        <div class="pg-list">
+
+            {% set min_budget = pgs | map(attribute='Budget') | list | min %}
+            {% set min_distance = pgs | map(attribute='Distance_km') | list | min %}
+
+            {% for pg in pgs %}
+
+            <div class="pg-card {% if loop.index > 1 %}hidden{% endif %}">
+
+                <!-- ROOM IMAGE -->
+                <img src="" class="pg-image" data-sharing="{{ pg.Sharing }}" alt="Room Image">
+
+                <!-- BADGES -->
+                <div class="badge-group">
+                    {% if pg.best %}
+                    <span class="badge badge-best">🏆 Best Match</span>
+                    {% endif %}
+                    {% if pg.Budget == min_budget %}
+                    <span class="badge badge-lowrent">💸 Low Rent</span>
+                    {% endif %}
+                    {% if pg.Distance_km == min_distance %}
+                    <span class="badge badge-nearest">📍 Nearest PG</span>
+                    {% endif %}
+                </div>
+
+                <!-- CARD NUMBER -->
+                <div class="card-rank">#{{ loop.index }}</div>
+
+                <div class="pg-info">
+
+                    <h3>{{ pg.PG_Name }}</h3>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span><b>Area</b><br>{{ pg.Area }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">💰</span>
+                            <span><b>Monthly Rent</b><br>₹ {{ pg.Budget }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🍽</span>
+                            <span><b>Food</b><br>{{ pg.Food }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🛏</span>
+                            <span><b>Sharing</b><br>{{ pg.Sharing }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">❄</span>
+                            <span><b>AC</b><br>{{ pg.AC }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">📏</span>
+                            <span><b>Distance</b><br>{{ pg.Distance_km }} km</span>
+                        </div>
+                    </div>
+
+                    <p class="address-text">📌 {{ pg.Address }}</p>
+
+                    <!-- BUTTONS -->
+                    <div class="btn-group">
+                        <button onclick="openRoute('{{ pg.Address }}')" class="route-btn">🗺 Destination Route</button>
+                        <button onclick="window.location.href='/form'" class="search-btn">🔍 Search Again</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- SHOW MORE BUTTON -->
+        <button onclick="showMore()" class="show-btn">
+            Show More Options
+        </button>
+
+        <!-- AI EXPLANATION -->
+        <div class="ai-box">
+            <h3>🤖 AI Recommendation</h3>
+            <p>
+                These PGs are recommended based on your preferences like location,
+                budget, sharing, food, and AC.
+            </p>
+            <p>
+                Best PG is selected based on lowest distance and best price match.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- JS -->
+
+    <script>
+
+        function showMore() {
+
+            let hiddenCards = document.querySelectorAll(".hidden");
+
+            hiddenCards.forEach(card => {
+                card.style.display = "block";
+            });
+
+            document.querySelector(".show-btn").style.display = "none";
+
+        }
+
+
+    function openRoute(address){
+
+    let destination = encodeURIComponent(address);
+
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+
+            let lat = position.coords.latitude;
+            let lng = position.coords.longitude;
+
+            // ✅ Directions with user location
+            let url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${destination}`;
+            window.open(url, '_blank');
+            
+
+        }, function(){
+
+            // ✅ Fallback (if location denied)
+            let url = `https://www.google.com/maps/search/?api=1&query=${destination}`;
+            window.open(url, '_blank');
+
+        });
+    } else {
+        // ✅ If browser not supporting geolocation
+        let url = `https://www.google.com/maps/search/?api=1&query=${destination}`;
+        window.open(url, '_blank');
+    }
+}   
+// DYNAMIC IMAGES LOGIC
+        document.addEventListener("DOMContentLoaded", function () {
+            const roomImages = {
+                "Single": [
+                    "/static/room_single_1.png",
+                    "/static/room_single_2.png",
+                    "/static/single1.jpg",
+                    "/static/single2.jpg",
+                    "/static/singleroom1.jpg",
+                    "/static/singleroom2.jpg",
+                    "/static/singleroom3.jpg",
+                    "/static/singleroom4.jpg",
+                    "/static/singleroom5.jpg"
+                ],
+                "2 Sharing": [
+                    "/static/room_double_1.png",
+                    "/static/double1.jpg",
+                    "/static/doubleroom2.jpg",
+                    "/static/doubleroom3.jpg",
+                    "/static/doubleroom4.jpg",
+                    "/static/doubleroom5.jpg"
+                    
+                ],
+                "3 Sharing": [
+                    "/static/room_triple_1.png",
+                    "/static/Triple1.jpg",
+                    "/static/Triple2.jpg",
+                    "/static/Triple3.jpg",
+                    "/static/Triple4.jpg",
+                    "/static/Triple5.jpg",
+                    "/static/Triple6.jpg"
+                ],
+                "4 Sharing": [
+                    "/static/room_quad_1.png",
+                    "/static/quad1.jpg",
+                    "/static/quad2.jpg",
+                    "/static/quad3.jpg",
+                    "/static/quad4.jpg"
+                ]
+            };
+
+            const cards = document.querySelectorAll(".pg-card");
+            const usedImages = new Set();
+
+            cards.forEach((card, cardIndex) => {
+                const img = card.querySelector(".pg-image");
+                let sharing = img.getAttribute("data-sharing").trim();
+
+                if (sharing.includes("2")) sharing = "2 Sharing";
+                if (sharing.includes("3")) sharing = "3 Sharing";
+                if (sharing.includes("4")) sharing = "4 Sharing";
+
+                let pool = roomImages[sharing] || roomImages["Single"];
+                let shuffledPool = [...pool].sort(() => Math.random() - 0.5);
+                let selectedSrc = shuffledPool.find(src => !usedImages.has(src));
+
+                if (!selectedSrc) {
+                    selectedSrc = pool[Math.floor(Math.random() * pool.length)];
+                }
+
+                // IMPORTANT: Set onerror BEFORE src
+                img.onerror = function () {
+                    this.onerror = null; // Prevent infinite loop
+                    this.src = "https://images.unsplash.com/photo-1555854816-802f18807568?q=80&w=800&auto=format&fit=crop";
+                };
+
+                usedImages.add(selectedSrc);
+                img.src = selectedSrc;
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

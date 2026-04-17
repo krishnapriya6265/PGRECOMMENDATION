@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Find PG</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='findpg.css') }}">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav>
+
+
+        <div class="logo-container">
+            <img src="{{url_for('static', filename='logo.png')}}" alt="logo" class="logo-img">
+            <span class="logo-text">Smart PG Hub</span>
+
+        </div>
+
+<div class="menu">
+
+<a href="/home">🏠Home</a>
+
+{% if session["role"] == "admin" %}
+<a href="/upload">📤Upload Dataset</a>
+<a href="/comparison" onclick="localStorage.setItem('compView', 'chart')">📊Chart</a>
+<a href="/comparison" onclick="localStorage.setItem('compView', 'analysis')">📈Performance Analysis</a>
+{% endif %}
+
+{% if username %}
+<a href="/form">🔍Find PG</a>
+<a href="/ai-picks">🤖 AI Picks</a>
+<div class="user">
+HELLO, {{ username }}
+</div>
+{% endif %}
+
+</div>
+
+</nav>
+
+<!-- BACK BUTTON -->
+<div class="back-btn-container">
+    <button onclick="history.back()" class="back-btn">← Back</button>
+</div>
+
+<!-- FIND PG SECTION -->
+
+<div class="search-container">
+
+<h2 class="title">Enter Your Preferences to Get Recommendations</h2>
+
+<form action="/predict" method="POST" class="search-card" id="pgForm">
+
+<!-- LOCATION -->
+<div class="section">
+<h3>📍 Location</h3>
+
+<div class="form-row">
+
+<div class="field">
+<label>District</label>
+<select name="district" id="district" required>
+<option value="">Select District</option>
+{% for d in districts %}
+<option value="{{d}}">{{d}}</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="field">
+<label>City</label>
+<select name="city" id="city" required>
+<option value="">Select City</option>
+</select>
+</div>
+
+<div class="field">
+<label>Area</label>
+<select name="area" id="area" required>
+<option value="">Select Area</option>
+</select>
+</div>
+
+</div>
+</div>
+
+<!-- PREFERENCES -->
+<div class="section">
+<h3>🏠 Preferences</h3>
+
+<div class="form-row">
+
+<div class="field">
+<label>Gender</label>
+<select name="gender" id="gender" required>
+<option value="">Select</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select>
+</div>
+
+<div class="field">
+<label>Room Sharing</label>
+<select name="sharing" id="sharing" required>
+<option value="">Select</option>
+<option value="Single">Single</option>
+<option value="2 Sharing">2 Sharing</option>
+<option value="3 Sharing">3 Sharing</option>
+<option value="4 Sharing">4 Sharing</option>
+</select>
+</div>
+
+<div class="field">
+<label>Food</label>
+<select name="food" id="food" required>
+<option value="">Select</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<div class="field">
+<label>AC</label>
+<select name="ac" id="ac" required>
+<option value="">Select</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+</div>
+</div>
+
+<!-- BUDGET -->
+<div class="section">
+<h3>💰 Budget</h3>
+
+<div class="form-row">
+<div class="field full-width">
+<label>Budget</label>
+<input type="number" name="budget" placeholder="Enter Budget" required>
+</div>
+</div>
+
+</div>
+
+<!-- BUTTON -->
+<div class="btn-center">
+<button type="submit">🔍 Find My PG</button>
+</div>
+
+</form>
+
+</div>
+
+<!-- IMAGE SLIDER -->
+<div class="slider">
+	<div class="slider-main"></div>
+    <div class="slider-label" id="sliderLabel">Quality PG Living</div>
+</div>
+
+<script src="{{ url_for('static', filename='findpg.js') }}"></script>
+
+</body>
+
+</html>

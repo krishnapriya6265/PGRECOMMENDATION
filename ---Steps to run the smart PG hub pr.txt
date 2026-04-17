@@ -1,0 +1,65 @@
+<---Steps to run the smart PG hub project--->
+Step 1: Install Required Software
+Install Python (version 3.13.2)
+Install pandas (version 3.0.1)
+Install numpy (version 2.2.6)
+Install scikit-learn
+Install mysql-connector-python
+Install VS Code or any code editor
+Install MySQL (MySQL Workbench or XAMPP)
+
+Step 2: Database Setup
+Open MySQL Workbench
+Run the following command to create the empty database:
+CREATE DATABASE smartpg;
+(Note: Your app.py is configured to use 'localhost' with the user 'root'. Make sure your password matches)
+
+Step 3: Open Project Folder
+Open VS Code
+Click on File → Open Folder
+Select your project folder (SmartPG / Pgfinder)
+
+Step 4: Check Project Structure
+Make sure files are present:
+app.py
+templates/ (HTML files)
+static/ (CSS, JS, images)
+dataset.csv
+requirements.txt
+
+Step 5: Run the Application
+Open terminal in VS Code
+Run the command: python app.py
+(This will also automatically create your 'users' table in MySQL for you)
+
+Step 6: Start Server
+After running, you will see:
+Running on http://127.0.0.1:5000/
+
+Step 7: Open in Browser
+Open browser (Chrome recommended)
+Go to:
+http://127.0.0.1:5000/
+
+Step 8: Use the Application
+For User:
+Register new account
+Login using credentials
+Click on Find PG
+Enter preferences
+View recommended PGs
+
+For Admin:
+Login as admin
+Upload dataset (CSV file)
+Train model
+View chart & performance analysis
+
+Step 9: View Results
+System displays:
+Best PG
+Nearest PG
+Top recommendations
+
+Step 10: Stop the Server
+press: ctrl+c

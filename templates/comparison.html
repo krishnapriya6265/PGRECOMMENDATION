@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Algorithm Comparison</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='comparison.css') }}">
+    <script>
+        // Set global constants for the chart to use
+        const KNN_ACC = Number("{{ knn or 0 }}");
+        const RF_ACC = Number("{{ rf or 0 }}");
+    </script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        
+        <div class="logo-container">
+            <img src="{{url_for('static', filename='logo.png')}}" alt="logo" class="logo-img">
+            <span class="logo-text">Smart PG Hub</span>
+
+        </div>
+
+        <div class="menu">
+            <a href="/home">🏠Home</a>
+            {% if session["role"] == "admin" %}
+            <a href="/upload">📤Upload Dataset</a>
+            <a href="/comparison" onclick="switchView('chart'); return false;">📊Chart</a>
+            <a href="/comparison" onclick="switchView('analysis'); return false;">📈Performance Analysis</a>
+            {% endif %}
+            {% if username %}
+            <a href="/form">🔍Find PG</a>
+             <a href="/ai-picks">🤖 AI Picks</a>
+            <div class="user">
+                HELLO, {{ username }}
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="back-btn-container">
+        <button onclick="history.back()" class="back-btn">← Back</button>
+    </div>
+
+
+    <div class="main-layout">
+        <div class="container chart-section">
+            <h2>Algorithm Accuracy Comparison</h2>
+            <div class="chart-box">
+                <canvas id="chart"></canvas>
+            </div>
+            <div class="winner-card">
+                <h3 id="best"></h3>
+            </div>
+
+            <div class="analysis-trigger">
+                <button onclick="showAnalysis()" class="btn-analysis">🔍 View Performance Analysis</button>
+            </div>
+            <p class="explanation">
+                Accuracy is calculated based on historical dataset patterns.
+                Random Forest typically performs better on multi-feature recommendation tasks.
+            </p>
+        </div>
+
+        <!-- PERFORMANCE ANALYSIS SECTION -->
+        {% if performance and performance.knn.precision > 0 %}
+        <div class="container analysis-section" id="performanceSection">
+            <h2 class="analysis-title">📊 Performance Analysis</h2>
+
+            <div class="metrics-grid">
+                <!-- KNN Metrics -->
+                <div class="metric-card knn-metrics">
+                    <h3>KNN Classifier</h3>
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Accuracy</th>
+                                <th>Recall</th>
+                                <th>Precision</th>
+                                <th>F1-score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>All</b></td>
+                                <td>{{ knn }}%</td>
+                                <td>{{ performance.knn.recall }}%</td>
+                                <td>{{ performance.knn.precision }}%</td>
+                                <td>{{ performance.knn.f1 }}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>Confusion Matrix Summary</h4>
+                    <div class="cm-summary">
+                        <div class="cm-stat tp">
+                            <span class="cm-label">True Positive</span>
+                            <span class="cm-value" id="knn-tp">-</span>
+                        </div>
+                        <div class="cm-stat tn">
+                            <span class="cm-label">True Negative</span>
+                            <span class="cm-value" id="knn-tn">-</span>
+                        </div>
+                        <div class="cm-stat fp">
+                            <span class="cm-label">False Positive</span>
+                            <span class="cm-value" id="knn-fp">-</span>
+                        </div>
+                        <div class="cm-stat fn">
+                            <span class="cm-label">False Negative</span>
+                            <span class="cm-value" id="knn-fn">-</span>
+                        </div>
+                    </div>
+                    <script>
+                    (function(){
+                        var cm = JSON.parse('{{ performance.knn.cm | tojson }}'); 
+                        var tp=0, fp=0, fn=0, tn=0;
+                        for(var i=0;i<cm.length;i++){
+                            for(var j=0;j<cm[i].length;j++){
+                                if(i===j) tp+=cm[i][j];
+                                else { fp+=cm[j][i]; fn+=cm[i][j]; }
+                            }
+                            tn += 0;
+                        }
+                        document.getElementById('knn-tp').textContent=tp;
+                        document.getElementById('knn-fp').textContent=fp;
+                        document.getElementById('knn-fn').textContent=fn;
+                        document.getElementById('knn-tn').textContent='N/A';
+                    })();
+                    </script>
+                </div>
+
+                <!-- RF Metrics -->
+                <div class="metric-card rf-metrics">
+                    <h3>Random Forest</h3>
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Accuracy</th>
+                                <th>Recall</th>
+                                <th>Precision</th>
+                                <th>F1-score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>All</b></td>
+                                <td>{{ rf }}%</td>
+                                <td>{{ performance.rf.recall }}%</td>
+                                <td>{{ performance.rf.precision }}%</td>
+                                <td>{{ performance.rf.f1 }}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>Confusion Matrix Summary</h4>
+                    <div class="cm-summary">
+                        <div class="cm-stat tp">
+                            <span class="cm-label">True Positive</span>
+                            <span class="cm-value" id="rf-tp">-</span>
+                        </div>
+                        <div class="cm-stat tn">
+                            <span class="cm-label">True Negative</span>
+                            <span class="cm-value" id="rf-tn">-</span>
+                        </div>
+                        <div class="cm-stat fp">
+                            <span class="cm-label">False Positive</span>
+                            <span class="cm-value" id="rf-fp">-</span>
+                        </div>
+                        <div class="cm-stat fn">
+                            <span class="cm-label">False Negative</span>
+                            <span class="cm-value" id="rf-fn">-</span>
+                        </div>
+                    </div>
+                    <script>
+                    (function(){
+                        var cm = JSON.parse('{{ performance.rf.cm | tojson }}');
+                        var tp=0, fp=0, fn=0;
+                        for(var i=0;i<cm.length;i++){
+                            for(var j=0;j<cm[i].length;j++){
+                                if(i===j) tp+=cm[i][j];
+                                else { fp+=cm[j][i]; fn+=cm[i][j]; }
+                            }
+                        }
+                        document.getElementById('rf-tp').textContent=tp;
+                        document.getElementById('rf-fp').textContent=fp;
+                        document.getElementById('rf-fn').textContent=fn;
+                        document.getElementById('rf-tn').textContent='N/A';
+                    })();
+                    </script>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="container analysis-section" id="performanceSection" style="display:none;">
+            <div class="no-data-msg">
+                <p>Training data is not available. Please upload a dataset and train the model first.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+
+    <script src="{{ url_for('static', filename='comparison.js') }}"></script>
+
+</body>
+
+</html>

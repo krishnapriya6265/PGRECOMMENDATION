@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login - Smart PG Finder</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='Login.css') }}">
+</head>
+<body>
+  <nav>
+    
+        <div class="logo-container">
+            <img src="{{url_for('static', filename='logo.png')}}" alt="logo" class="logo-img">
+            <span class="logo-text">Smart PG Hub</span>
+
+        </div>
+    <div class="menu">
+      <a href="/">Home</a>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    </div>
+  </nav>
+<div class="container">
+    <!-- Left Image -->
+    <div class="left">
+        <img src="{{ url_for('static', filename='Loginbg.jpg') }}" alt="PG Image">
+    </div>
+    <!-- Right Login Form -->
+    <div class="right">
+        <div class="login-card">
+        <h2>SMART PG</h2>
+        <p>Login to find the best PG near you</p>
+        {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="server-msg">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+       <form action="/login" method="POST" onsubmit="return validateLogin()" novalidate>
+            <input type="text" id="email" name="email" placeholder="example@gmail.com" required>
+            <span class="error" id="emailError"></span>
+            <input type="password" id="password" name="password" placeholder="Enter Password" required>
+            <span class="error" id="passwordError"></span>
+            <a href="/forgot-password">Forgot Password</a><br>
+            <button type="submit">Login</button>
+        </form>
+        <p>New user?<a href="/register">Create Account</a></p>
+      </div>
+
+</div></div>
+</body>
+     <script src="{{ url_for('static', filename='login.js') }}"></script>   
+</html>

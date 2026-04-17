@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Register - Smart PG Hub</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+
+</head>
+
+<body>
+    <nav>
+    
+        <div class="logo-container">
+            <img src="{{url_for('static', filename='logo.png')}}" alt="logo" class="logo-img">
+            <span class="logo-text">Smart PG Hub</span>
+
+        </div>
+    <div class="menu">
+      <a href="/">Home</a>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    </div>
+  </nav>
+
+<div class="container">
+
+    <!-- LEFT IMAGE -->
+    <div class="left">
+        <img src="{{ url_for('static', filename='Loginbg.jpg') }}">
+    </div>
+
+
+    <!-- RIGHT FORM -->
+    <div class="right">
+
+        <div class="form-card">
+
+        <h2>Create Account</h2>
+        <p>Register to find the best PG near you</p>
+
+        <form id="registerForm" onsubmit="return validateRegister()">
+
+            <label>First Name</label>
+            <input type="text" id="fname" name="fname" placeholder="Enter first name">
+            <span class="error" id="fnameError"></span>
+
+            <label>Last Name</label>
+            <input type="text" id="lname" name="lname" placeholder="Enter last name">
+            <span class="error" id="lnameError"></span>
+
+            <label>Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter phone number">
+            <span class="error" id="phoneError"></span>
+
+            <label>Email ID</label>
+            <input type="text" id="email" name="email" placeholder="example@gmail.com">
+            <span class="error" id="emailError"></span>
+
+            <label>Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter password">
+            <span class="error" id="passwordError"></span>
+
+            <label>Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password">
+            <span class="error" id="confirmPasswordError"></span>
+
+            <button type="submit">Register</button>
+
+        </form>
+
+        <p>Already have an account? <a href="/login">Login</a></p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='register.js') }}"></script>
+
+</body>
+</html>

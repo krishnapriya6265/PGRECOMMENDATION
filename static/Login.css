@@ -1,0 +1,434 @@
+body{
+margin:0;
+font-family:Arial;
+position: relative;
+min-height: 100vh;
+padding-top: 80px;
+overflow: hidden;
+}
+
+
+/* CONTAINER */
+.container{
+display:flex;
+height:calc(100vh - 80px);
+align-items: stretch;   /* ✅ FIX */
+}
+
+/* NAVBAR */
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background: rgba(15, 23, 42, 0.85);
+backdrop-filter: blur(12px);
+border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+padding: 0 5px;
+height: 80px;
+position: fixed;
+width: 100%;
+top: 0;
+z-index: 1000;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-img {
+    width: 80px;
+    height: 85px;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.menu{
+display:flex;
+align-items: center;
+gap:35px;
+}
+
+.menu a{
+text-decoration:none;
+color: #e2e8f0;
+font-weight:bold;
+font-size: 25px;
+padding: 20px;
+}
+
+.menu a:hover {
+    color: #38bdf8;
+    text-decoration: none;
+}
+.error{
+    color: #dc2626;   /* modern red */
+    font-size:20px;
+    margin-top:5px;
+    font-weight:500;
+}
+
+/* LEFT IMAGE */
+.left{
+width:75%;
+height:100%;          /* ✅ FIX */
+position:relative;
+overflow:hidden;
+}
+
+.left img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;        /* ✅ smoother */
+}
+
+/* overlay */
+.left::after{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.2);
+}
+
+/* RIGHT FORM */
+.right{
+width:50%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:whitesmoke;
+}
+
+.login-card{
+    border: 2px solid #ccc;
+    padding: 40px;
+    width: 500px;
+    max-width: 500px;
+    height: 450px;
+    border-radius: 12px;
+    box-shadow: 5px 4px 5px black;
+    backdrop-filter: blur(30px);
+}
+
+.login-card h2{
+font-size:32px;
+margin-bottom:10px;
+text-align: center;
+}
+
+.login-card p{
+color:#666;
+font-size: 20px;
+text-align: center;
+}
+
+.login-card form{
+display:flex;
+flex-direction:column;
+}
+
+.login-card input{
+padding:12px;
+margin:8px 0 16px 0;
+border:2px solid #ccc;
+border-radius:6px;
+width:95%;
+font-size: 19px;
+}
+
+input::placeholder{
+    font-size: 20px;
+    font-style: italic;
+}
+
+.login-card button{
+padding:12px;
+background: linear-gradient(135deg, #38bdf8, #0284c7);
+border:none;
+color:white;
+border-radius:5px;
+cursor:pointer;
+font-size: 18px;
+font-weight: bold;
+width:101%;
+transition: all 0.3s ease;
+}
+
+.login-card button:hover{
+background: linear-gradient(135deg, #0ea5e9, #0369a1);
+transform: translateY(-2px);
+}
+
+a{
+text-decoration:none;
+color:#0f5e92;
+font-size: 20px;
+}
+
+a:hover{
+text-decoration: underline;
+}
+
+/* 💻 TABLET / HALF SCREEN */
+@media (max-width:1024px){
+
+    .container{
+        flex-direction: row;
+    }
+
+    .left{
+        width:60%;
+        height:100%;
+    }
+
+    .right{
+        width:50%;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        padding-left: 0px;
+       
+    
+    }
+
+    .login-card{
+        width:90%;
+        max-width:400px;
+        align-items: center;
+        margin: 0 auto;
+    }
+    .left,
+    .right{
+    flex: none !important;
+}
+}
+
+/* 📱 MOBILE */
+@media (min-width:768px) and (max-width:1024px){    
+    body{
+        overflow-y:auto;
+        padding-top:70px;
+    }
+
+    .container{
+        display:flex !important;
+        flex-direction: column !important;
+        height:auto !important;
+    }
+
+    /* NAVBAR */
+    .logo-text{
+        font-size:24px;
+        white-space: nowrap;
+    }
+
+    .menu{
+        gap:15px;
+    }
+
+    .menu a{
+        font-size:25px;
+        margin:0;
+        padding:30px;
+    }
+
+    .logo-img{
+        margin-left:-10px;
+    }
+
+    /* IMAGE TOP */
+    .left{
+        width:103% !important;
+        height:40vh !important;
+    }
+
+    .left img{
+        width:100% !important;
+        height:105% !important;
+        object-fit:cover;
+    }
+
+    /* FORM BELOW */
+    .right{
+        width:100% !important;
+        padding:15px;
+        display:flex;
+        justify-content:center;
+        align-items:flex-start;
+        
+        min-height: 50vh;;
+    }
+
+    .login-card{
+        width:80% !important;
+        max-width:100% !important;
+        height: auto !important;
+        padding:20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-radius:10px;
+    }
+    
+.login-card h2{
+font-size:40px;
+margin-bottom:10px;
+text-align: center;
+}
+
+.login-card p{
+color:#666;
+font-size: 28px;
+text-align: center;
+}
+
+.login-card form{
+display:flex;
+flex-direction:column;
+}
+
+.login-card input{
+padding:15px;
+margin:8px 0 16px 0;
+border:2px solid #ccc;
+border-radius:6px;
+width:95%;
+font-size: 24px;
+}
+
+    form{
+        width:100% !important;
+    }
+
+    input{
+        width:100% !important;
+        box-sizing:border-box;
+        font-size:18px;
+    }
+
+    input::placeholder{
+    font-size: 28px;
+    font-style: italic;
+}
+
+.login-card button{
+padding:12px;
+background: linear-gradient(135deg, #38bdf8, #0284c7);
+border:none;
+color:white;
+border-radius:5px;
+cursor:pointer;
+font-size:28px;
+font-weight: bold;
+width:101%;
+transition: all 0.3s ease;
+}
+a{
+text-decoration:none;
+color:#0f5e92;
+font-size: 25px;
+}
+
+
+    /* 🔥 FORCE FIX */
+    .left,
+    .right{
+        flex: none !important;
+    }
+}
+
+
+/* ============================= */
+/* 📱 SMALL MOBILE (480px) */
+/* ============================= */
+@media (max-width:480px){
+
+    body{
+        padding-top:70px;
+        overflow-y:auto;
+    }
+
+    .container{
+        display:flex !important;
+        flex-direction: column !important;
+    }
+
+    /* IMAGE */
+    .left{
+        width:100% !important;
+        height:25vh !important;
+    }
+
+    .left img{
+        width:150% !important;
+        height:100% !important;
+        object-fit:cover;
+    }
+
+    /* FORM */
+    .right{
+        width:90% !important;
+        padding:10px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+    }
+
+    .form-card{
+        width:90% !important;
+        max-width:100% !important;
+        padding:15px;
+        margin:0 auto;
+        border-radius:10px;
+    }
+
+    form{
+        width:80% !important;
+    }
+
+    input{
+        width:100% !important;
+        box-sizing:border-box;
+        font-size:15px;
+    }
+
+    button{
+        width:100% !important;
+    }
+
+    /* NAVBAR */
+    .menu{
+        gap:10px;
+    }
+
+    .menu a{
+        font-size:14px;
+        margin:0;
+        padding:5px;
+    }
+
+    .logo-text{
+        font-size:18px;
+    }
+
+    .logo-img{
+        width:45px;
+        height:45px;
+    }
+
+    /* 🔥 FORCE FIX */
+    .left,
+    .right{
+        flex: none !important;
+    }
+}
