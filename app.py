@@ -84,10 +84,10 @@ def login():
         if user:
             session["user"] = user["name"]
             session["role"] = user["role"]
-            flash("✅ Login successful!")
+            flash("✅ Login successful!","success")
             return redirect(url_for("home"))
         else:
-            flash("Invalid email or password.")
+            flash("Invalid email or password.","flash-error")
 
     return render_template("login.html")
 
@@ -216,7 +216,7 @@ def home():
 def logout():
     session.clear()
     
-    flash("✅ Logged out successfully!") 
+    flash("✅ Logged out successfully!","success") 
     return redirect("/login")
 
 

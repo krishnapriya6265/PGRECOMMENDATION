@@ -47,7 +47,7 @@ window.onload = function(){
 
 setTimeout(function(){
 
-let msg = document.querySelector(".server-msg");
+let msg = document.querySelector(".flash-error, .success");
 
 if(msg){
 msg.style.transition = "opacity 0.5s";
