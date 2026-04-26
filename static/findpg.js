@@ -72,7 +72,8 @@ const sliderData = [
     { img: '/static/Bhanugudi-kakinada.jpg', label: 'Bhanugudi-Kakinada' },
     { img: '/static/Kakinada-pg.jpg', label: 'PGs in Kakinada' },
     { img: '/static/pg-kakinada.jpg', label: 'PGs in kakinada' },
-
+    { img: '/static/Vijayawada.jpg', label: 'Vijayawada' },
+    { img: '/static/Benzcircle.jpg', label: 'Benz Circle, Vijayawada' },
     { img: '/static/Vizag-station.jpg', label: 'Vizag' },
     { img: 'static/vizag-beach.jpg', label: 'Beach Road, Vizag' },
     { img: 'static/Vizag-gajuwaka.jpg', label: 'Gajuwaka, Vizag' },
